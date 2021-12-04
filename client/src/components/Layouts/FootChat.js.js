@@ -10,7 +10,7 @@ export const FootChat = ({ messageValue, setMessageValue, sendMessage }) => {
             placeholder="Enter text message..."
             value={messageValue}
             onChange={(e) => setMessageValue(e.target.value)}
-            onKeyUp={(e) => (e.key === "Enter" ? sendMessage() : null)}
+            onKeyUp={(e) => (e.key === "Enter" &&  messageValue? sendMessage() : null)}
           ></input>
 
           <AiOutlineSend

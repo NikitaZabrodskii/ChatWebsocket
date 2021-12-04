@@ -13,26 +13,26 @@ const Websocket = () => {
   const [messageValue, setMessageValue] = useState("");
   const [connectValue, setConnectValue] = useState(false);
   const [userName, setUserName] = useState("");
-  const [navState, setNavState] = useState("");
+  const [navState, setNavState] = useState('')
   // const [selectedFile, setSelectedFile] = useState(null);
-  const [linkImg, setLinkImg] = useState('')
- 
-  
+  const [linkImg, setLinkImg] = useState("");
 
-  
 
   function connect(e) {
-   
     e.preventDefault();
     console.log("working");
     socketRef.current = new WebSocket("ws://localhost:5000");
 
     socketRef.current.onmessage = (message) => {
-     
       message = JSON.parse(message.data);
-      console.log(message)
+      console.log(message);
+     if(message.event === 'connection' && userName!== message.name){
+       setNavState(message.name)
+     }else if(navState === '' && userName!== message.name){
+       setNavState(message.name)
+     }
 
-      setNavState(message.name);
+
       setMessages((prev) => [...prev, message]);
     };
     socketRef.current.onopen = () => {
@@ -42,12 +42,11 @@ const Websocket = () => {
         id: Date.now(),
         data: `${userName} connect in to the chat`,
         name: userName,
-        
       };
-      console.log(message.ava)
-      
+      console.log(message.ava);
+   
       socketRef.current.send(JSON.stringify(message));
-      setNavState((prev) => [...prev, userName]);
+
       console.log("connection is true");
     };
     socketRef.current.onerror = () => {
@@ -72,7 +71,7 @@ const Websocket = () => {
       event: "message",
       name: userName,
       data: messageValue,
-      img:linkImg,
+      img: linkImg,
       time: time.toLocaleString("en-US", {
         hour: "numeric",
         minute: "numeric",
@@ -86,12 +85,18 @@ const Websocket = () => {
 
   if (!connectValue)
     return (
-      <Login connect={connect} userName={userName} setUserName={setUserName} setLinkImg={setLinkImg} />
+      <Login
+        connect={connect}
+        userName={userName}
+        setUserName={setUserName}
+        setLinkImg={setLinkImg}
+      />
     );
 
   return (
     <div className="chatWindow">
-     <Navchat navState={navState}/>
+      <Navchat navState={navState} />
+
       <div className="MainChat">
         <div className="container">
           {messages.map((message) => (

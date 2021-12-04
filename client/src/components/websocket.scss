@@ -1,6 +1,4 @@
 body {
-  color: white;
-
   .center {
     display: flex;
     justify-content: center;
@@ -26,6 +24,12 @@ body {
     background: #0f0f0f;
 
     width: 1440px;
+    .navNick {
+      color: white;
+      padding-top: 10px;
+      font-weight: 600;
+      font-size: 24px;
+    }
   }
   .MainChat {
     height: 880px;
@@ -53,10 +57,14 @@ body {
       .message__content {
         margin-left: 16px;
         margin-right: 8px;
+        font-weight: 700;
+        font-size: 20px;
 
         .content__wrapper {
           display: flex;
           justify-content: space-between;
+          font-weight: 400;
+          font-size: 19.48px;
         }
       }
     }
